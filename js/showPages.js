@@ -186,7 +186,7 @@ export function showMainIngredientsPage(ingredients) {
 
     return createEl(
       "div",
-      { class: "col-12 col-md-3 c-pointer" },
+      { class: "" },
       {
         click: () => {
           getIngredientMeals(ingredient.strIngredient);
@@ -217,49 +217,53 @@ export function showContactUsPage() {
   let element = document.querySelector("#home .row");
   // create and append ui
   let htmlElments = `
-            <div class="col-md-6" id="nameInput-container">
+          <div class="w-75 position-absolute top-50 start-50 translate-middle" id="cc">
+            <div class="row justify-content-center">
+              <div class="col-md-5 mb-3" id="nameInput-container">
+                        
+                  <div id="nameAlert" class="alert alert-danger w-100 mt-2 d-none">
+                      Special characters and numbers not allowed
+                  </div>
+              </div>
+              <div class="col-md-5 mb-3" id="emailInput-container">
                 
-                <div id="nameAlert" class="alert alert-danger w-100 mt-2 d-none">
-                    Special characters and numbers not allowed
-                </div>
+                  <div id="emailAlert" class="alert alert-danger w-100 mt-2 d-none">
+                      Email not valid *exemple@yyy.zzz
+                  </div>
+              </div>
+              <div class="col-md-5 mb-3" id="phoneInput-container">
+                  
+                  <div id="phoneAlert" class="alert alert-danger w-100 mt-2 d-none">
+                      Enter valid Phone Number
+                  </div>
+              </div>
+              <div class="col-md-5 mb-3" id="ageInput-container">
+                  
+                  <div id="ageAlert" class="alert alert-danger w-100 mt-2 d-none">
+                      Enter valid age
+                  </div>
+              </div>
+              <div class="col-md-5 mb-3" id="passwordInput-container">
+                  
+                  <div id="passwordAlert" class="alert alert-danger w-100 mt-2 d-none">
+                      Enter valid password *Minimum eight characters, at least one letter and one number:*
+                  </div>
+              </div>
+              <div class="col-md-5 mb-3" id="repasswordInput-container">
+                  
+                  <div id="repasswordAlert" class="alert alert-danger w-100 mt-2 d-none">
+                      Enter valid repassword 
+                  </div>
+              </div>
             </div>
-            <div class="col-md-6" id="emailInput-container">
-               
-                <div id="emailAlert" class="alert alert-danger w-100 mt-2 d-none">
-                    Email not valid *exemple@yyy.zzz
-                </div>
-            </div>
-            <div class="col-md-6" id="phoneInput-container">
-                
-                <div id="phoneAlert" class="alert alert-danger w-100 mt-2 d-none">
-                    Enter valid Phone Number
-                </div>
-            </div>
-            <div class="col-md-6" id="ageInput-container">
-                
-                <div id="ageAlert" class="alert alert-danger w-100 mt-2 d-none">
-                    Enter valid age
-                </div>
-            </div>
-            <div class="col-md-6" id="passwordInput-container">
-                
-                <div id="passwordAlert" class="alert alert-danger w-100 mt-2 d-none">
-                    Enter valid password *Minimum eight characters, at least one letter and one number:*
-                </div>
-            </div>
-            <div class="col-md-6" id="repasswordInput-container">
-                
-                <div id="repasswordAlert" class="alert alert-danger w-100 mt-2 d-none">
-                    Enter valid repassword 
-                </div>
-            </div>
+          </div>
         
   `;
   element.innerHTML = htmlElments;
 
   // create and append btn element
   if (!document.querySelector("#submitBtn")) {
-    let container = document.querySelector("#home .container");
+    let container = document.querySelector("#cc");
 
     let btn = createEl(
       "button",
@@ -357,7 +361,7 @@ export function showSearchPage() {
     "input",
     {
       id: "search-name",
-      class: "w-48 form-control bg-transparent text-white z-90",
+      class: "form-control bg-transparent text-white z-90 mb-3",
       type: "text",
       placeholder: "Search By Name",
     },
@@ -372,7 +376,7 @@ export function showSearchPage() {
     "input",
     {
       id: "search-letter",
-      class: "w-48 form-control bg-transparent text-white z-90",
+      class: "form-control bg-transparent text-white z-90",
       type: "text",
       placeholder: "Search By first letter",
       maxlength: "1",
@@ -385,8 +389,13 @@ export function showSearchPage() {
   );
 
   homeContainer.innerHTML = `
-      <div class="d-flex justify-content-around mb-5" id="search-input-container">
+      <div class="row mb-5">
+        <div class="col-12 col-md-6" id="search-input-name">
         
+        </div>
+        <div class="col-12 col-md-6" id="search-input-f-letter">
+        
+        </div>
       </div>    
       <div id="search-meals">
         <div class="container">
@@ -396,9 +405,10 @@ export function showSearchPage() {
       </div>
 `;
 
+  document.querySelector("#search-input-name").append(inputSearchByName);
   document
-    .querySelector("#search-input-container")
-    .append(inputSearchByName, inputSearchByFisrtLetter);
+    .querySelector("#search-input-f-letter")
+    .append(inputSearchByFisrtLetter);
 
   endLoading();
 }
