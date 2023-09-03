@@ -186,7 +186,7 @@ export function showMainIngredientsPage(ingredients) {
 
     return createEl(
       "div",
-      { class: "" },
+      { class: "col-12 col-md-3 c-pointer" },
       {
         click: () => {
           getIngredientMeals(ingredient.strIngredient);
