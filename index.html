@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yummy</title>
+    <!-- logo -->
+    <link rel="icon" href="./imgs/logo.png" type="image/png" />
+    <!-- fontawesome -->
+    <link
+      rel="stylesheet"
+      href="./css/fontawesome-free-6.4.0-web/css/all.min.css"
+    />
+    <!-- bootstrap -->
+    <link
+      rel="stylesheet"
+      href="./css/bootstrap-5.3.0-dist/css/bootstrap.min.css"
+    />
+    <!-- my style -->
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body class="bg-black">
+    <nav
+      class="bg-black text-white h-100 w-250px position-fixed p-4 transition-07 start-0 z-100"
+    >
+      <ul class="list-unstyled position-absolute top-30px overflow-hidden">
+        <li
+          id="searchLi"
+          class="mb-3 nav-links c-pointer position-relative top-30 transition-07"
+        >
+          Search
+        </li>
+        <li
+          id="categoriesLi"
+          class="mb-3 nav-links c-pointer position-relative top-30 transition-07"
+        >
+          Categories
+        </li>
+        <li
+          id="areasLi"
+          class="mb-3 nav-links c-pointer position-relative top-30 transition-07"
+        >
+          Area
+        </li>
+        <li
+          id="ingredientsLi"
+          class="mb-3 nav-links c-pointer position-relative top-30 transition-07"
+        >
+          Ingredients
+        </li>
+        <li
+          id="contactUsLi"
+          class="nav-links c-pointer position-relative top-30 transition-07"
+        >
+          Contact Us
+        </li>
+      </ul>
+
+      <div class="nav-footer position-absolute bottom-0">
+        <div>
+          <i class="fa-brands fa-facebook c-pointer"></i>
+          <i class="fa-brands fa-twitter c-pointer"></i>
+          <i class="fa-solid fa-globe c-pointer"></i>
+        </div>
+        <p>Copyright Â© 2019 All Rights Reserved.</p>
+      </div>
+    </nav>
+    <aside
+      id="aside-nav"
+      class="d-flex flex-column justify-content-between align-items-center bg-white h-100 w-70px position-fixed px-2 py-4 transition-07 z-100"
+    >
+      <div><img class="w-100" src="./imgs/logo.png" alt="logo" /></div>
+      <div id="menu-icon-nav" class="c-pointer">
+        <i class="fa-solid fa-align-justify fa-2x"></i>
+      </div>
+      <div>
+        <i class="fa-solid fa-globe d-block mb-2 c-pointer"></i>
+        <i class="fa-solid fa-share-nodes d-block c-pointer"></i>
+      </div>
+    </aside>
+
+    <main id="home" class="py-5">
+      <div class="container">
+        <div class="row g-4">
+          <!-- js put elements here -->
+        </div>
+      </div>
+    </main>
+
+    <div
+      id="loading"
+      class="position-fixed z-80 top-0 start-0 end-0 bottom-0 text-center bg-black text-white"
+    >
+      <i class="fa fa-spinner fa-spin fa-5x position-absolute top-50"></i>
+    </div>
+
+    <script src="./css/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/main.js" type="module"></script>
+  </body>
+</html>
