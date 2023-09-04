@@ -2,57 +2,90 @@ import { getMeal } from "./getData.js";
 import { isAllInputValid } from "./validation.js";
 
 export function startLoading() {
-  let loading = document.getElementById("loading");
+  let loading = document.querySelector("#loading");
 
-  if (loading.classList.contains("d-none")) {
-    loading.classList.remove("d-none");
+  if (loading.classList.contains("opacity-0")) {
+    loading.classList.remove("opacity-0");
   }
+
+  if (!loading.classList.contains("opacity-100")) {
+    loading.classList.add("opacity-100");
+  }
+
+  setTimeout(() => {
+    loading.classList.remove("d-none");
+  }, 500);
 }
 
 export function endLoading() {
-  let loading = document.getElementById("loading");
-  if (!loading.classList.contains("d-none")) {
-    loading.classList.add("d-none");
+  let loading = document.querySelector("#loading");
+
+  if (loading.classList.contains("opacity-100")) {
+    loading.classList.remove("opacity-100");
   }
+  if (!loading.classList.contains("opacity-0")) {
+    loading.classList.add("opacity-0");
+  }
+
+  setTimeout(() => {
+    loading.classList.add("d-none");
+  }, 500);
 }
 
-export function closeMenu(doToggle) {
+export function closeMenu() {
   let mainNav = document.querySelector("nav");
-  let asideNav = document.getElementById("aside-nav");
-  let navLinks = mainNav.querySelectorAll("li.position-relative");
+  let asideNav = document.querySelector("#aside-nav");
+  let menuIcon = document.querySelector("#menu-icon-nav .fa-solid");
+  let navLinks = mainNav.querySelectorAll("nav li.position-relative");
 
   mainNav.style.cssText = `left: -${mainNav.offsetWidth}px !important`;
   asideNav.style.cssText = `left: 0px`;
 
-  if (doToggle) return;
+  // add fa-x class
+  if (!menuIcon.classList.contains("fa-align-justify")) {
+    menuIcon.classList.add("fa-align-justify");
+  }
 
-  document
-    .querySelector("#menu-icon-nav .fa-solid")
-    .classList.toggle("fa-align-justify");
-  document.querySelector("#menu-icon-nav .fa-solid").classList.toggle("fa-x");
+  // remove fa-align-justify class
+  if (menuIcon.classList.contains("fa-x")) {
+    menuIcon.classList.remove("fa-x");
+  }
 
-  navLinks.forEach((el) => {
-    el.classList.toggle("top-0");
-  });
+  // remove top-0 class from all navLinks
+  if (navLinks[0].classList.contains("top-0")) {
+    navLinks.forEach((el) => {
+      el.classList.remove("top-0");
+    });
+  }
 }
 
 export function openMenu() {
   let mainNav = document.querySelector("nav");
-  let asideNav = document.getElementById("aside-nav");
+  let asideNav = document.querySelector("#aside-nav");
   let navLinks = mainNav.querySelectorAll("li.position-relative");
+  let menuIcon = document.querySelector("#menu-icon-nav .fa-solid");
+
   mainNav.style.cssText = `left: 0px !important`;
   asideNav.style.cssText = `left: ${mainNav.offsetWidth}px`;
 
-  document
-    .querySelector("#menu-icon-nav .fa-solid")
-    .classList.toggle("fa-align-justify");
-  document.querySelector("#menu-icon-nav .fa-solid").classList.toggle("fa-x");
+  // add fa-x class
+  if (!menuIcon.classList.contains("fa-x")) {
+    menuIcon.classList.add("fa-x");
+  }
 
-  navLinks.forEach((el, index) => {
-    setTimeout(() => {
-      el.classList.toggle("top-0");
-    }, `${index}00`);
-  });
+  // remove fa-align-justify class
+  if (menuIcon.classList.contains("fa-align-justify")) {
+    menuIcon.classList.remove("fa-align-justify");
+  }
+
+  // add top-0 class from all navLinks
+  if (!navLinks[0].classList.contains("top-0")) {
+    navLinks.forEach((el, index) => {
+      setTimeout(() => {
+        el.classList.add("top-0");
+      }, `${index}00`);
+    });
+  }
 }
 
 export function createEl(elementName, attributes, eventsListener, children) {
@@ -79,6 +112,9 @@ export function createEl(elementName, attributes, eventsListener, children) {
 }
 
 export function appendAllMeals(meals, element) {
+  if (!meals) {
+    return;
+  }
   element.innerHTML = "";
   let mealEls = meals.map((meal) => {
     return createEl(
@@ -112,4 +148,31 @@ export function handelSubmit() {
   if (isAllInputValid()) {
     console.log("Done");
   }
+}
+
+export function searchMealsContainer() {
+  let searchMealsContainerElement = document.querySelector(
+    "#search-meals .container .row"
+  );
+  if (!searchMealsContainerElement) {
+    searchMealsContainerElement = document.querySelector("#home .row");
+  }
+
+  return searchMealsContainerElement;
+}
+
+export function removeSearchInputs() {
+  let input = document.querySelector("#search-name");
+  if (input) {
+    document.querySelector("#search-name").remove();
+    document.querySelector("#search-letter").remove();
+  }
+}
+
+export function initHomeRowElement() {
+  removeSearchInputs();
+  let element = document.querySelector("#home .row");
+  element.innerHTML = "";
+
+  return element;
 }

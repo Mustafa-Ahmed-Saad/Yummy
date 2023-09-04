@@ -3,19 +3,20 @@ import {
   startLoading,
   endLoading,
   appendAllMeals,
+  searchMealsContainer,
+  removeSearchInputs,
 } from "./helper.js";
 import {
   showMealPage,
-  showSearchMealsPage,
   showMainIngredientsPage,
   showCategoriesPage,
   showAreasPage,
+  showErrorPage,
 } from "./showPages.js";
 
 const limit = 20;
 
 export async function getMealsBySearchName(value) {
-  startLoading();
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/search.php?s=${value}`
   );
@@ -27,13 +28,13 @@ export async function getMealsBySearchName(value) {
     } else {
       myData = data.meals;
     }
-    showSearchMealsPage(myData);
+
+    let container = searchMealsContainer();
+    appendAllMeals(myData, container);
   }
-  endLoading();
 }
 
 export async function getMeal(id) {
-  startLoading();
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
   );
@@ -41,11 +42,9 @@ export async function getMeal(id) {
   if (data) {
     showMealPage(data.meals[0]);
   }
-  endLoading();
 }
 
 export async function getCategoryMeals(category) {
-  startLoading();
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
   );
@@ -60,11 +59,10 @@ export async function getCategoryMeals(category) {
     let element = document.querySelector("#home .row");
     appendAllMeals(myData, element);
   }
-  endLoading();
 }
 
 export async function getCategories() {
-  startLoading();
+  removeSearchInputs();
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/categories.php`
   );
@@ -72,19 +70,9 @@ export async function getCategories() {
   if (data) {
     showCategoriesPage(data.categories);
   }
-
-  endLoading();
 }
 
 export async function getMainIngredients() {
-  closeMenu();
-  let input = document.querySelector("#search-name");
-  if (input) {
-    document.querySelector("#search-name").remove();
-    document.querySelector("#search-letter").remove();
-  }
-
-  startLoading();
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/list.php?i=list`
   );
@@ -92,12 +80,9 @@ export async function getMainIngredients() {
   if (data) {
     showMainIngredientsPage(data.meals);
   }
-
-  endLoading();
 }
 
 export async function getIngredientMeals(ingredient) {
-  startLoading();
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
   );
@@ -112,11 +97,9 @@ export async function getIngredientMeals(ingredient) {
     let element = document.querySelector("#home .row");
     appendAllMeals(myData, element);
   }
-  endLoading();
 }
 
 export async function getAllAreas() {
-  startLoading();
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/list.php?a=list`
   );
@@ -124,11 +107,9 @@ export async function getAllAreas() {
   if (data) {
     showAreasPage(data.meals);
   }
-  endLoading();
 }
 
 export async function getAreaMeals(area) {
-  startLoading();
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`
   );
@@ -143,7 +124,6 @@ export async function getAreaMeals(area) {
     let element = document.querySelector("#home .row");
     appendAllMeals(myData, element);
   }
-  endLoading();
 }
 
 export async function getMealsBySearchFirstLetter(value) {
@@ -152,7 +132,6 @@ export async function getMealsBySearchFirstLetter(value) {
   }
   const regex = /^[A-Za-z]$/;
   if (regex.test(value)) {
-    startLoading();
     let data = await getData(
       `https://www.themealdb.com/api/json/v1/1/search.php?f=${value}`
     );
@@ -164,13 +143,15 @@ export async function getMealsBySearchFirstLetter(value) {
       } else {
         myData = data.meals;
       }
-      showSearchMealsPage(myData);
+
+      let container = searchMealsContainer();
+      appendAllMeals(myData, container);
     }
-    endLoading();
   }
 }
 
 async function getData(url) {
+  closeMenu();
   startLoading();
   let data = await fetch(url, {
     method: "GET",
@@ -187,6 +168,7 @@ async function getData(url) {
     })
     .catch((error) => {
       // Handle the error
+      showErrorPage();
       console.log("error in featch or handel data");
       console.error(error);
     });

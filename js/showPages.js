@@ -6,25 +6,17 @@ import {
   getMealsBySearchName,
 } from "./getData.js";
 import {
-  appendAllMeals,
   closeMenu,
   createEl,
   endLoading,
   handelSubmit,
+  initHomeRowElement,
   startLoading,
 } from "./helper.js";
 import { inputsValidation } from "./validation.js";
 
 export function showAreasPage(areas) {
-  closeMenu();
-  let input = document.querySelector("#search-name");
-  if (input) {
-    document.querySelector("#search-name").remove();
-    document.querySelector("#search-letter").remove();
-  }
-
-  let element = document.querySelector("#home .row");
-  element.innerHTML = "";
+  let element = initHomeRowElement();
 
   let areaEls = areas.map((area) => {
     return createEl(
@@ -49,8 +41,9 @@ export function showAreasPage(areas) {
 export function showMealPage(meal) {
   let homeContainer = document.querySelector("#home .container");
   let liRecipes = "";
-
   let tags = "";
+
+  // create tags elements
   if (meal.strTags) {
     tags = meal.strTags.split(",").map((tag) => {
       if (!(tag === "")) {
@@ -60,6 +53,7 @@ export function showMealPage(meal) {
     tags = tags.join("");
   }
 
+  // create liRecipes elements
   for (let i = 1; i <= 20; i++) {
     if (!(meal["strIngredient" + i] === "")) {
       liRecipes += `<li class="alert alert-info border border-2 rounded-3 m-2 p-1">${
@@ -68,6 +62,7 @@ export function showMealPage(meal) {
     }
   }
 
+  // ui
   homeContainer.innerHTML = `
         <div class="row text-white g-3">
         <div class="col-3">
@@ -107,34 +102,8 @@ export function showMealPage(meal) {
       </div>`;
 }
 
-export function showSearchMealsPage(meals) {
-  if (!meals) {
-    return;
-  }
-  let searchMealsContainer = document.querySelector(
-    "#search-meals .container .row"
-  );
-  if (!searchMealsContainer) {
-    searchMealsContainer = document.querySelector("#home .container .row");
-  }
-  searchMealsContainer.innerHTML = "";
-
-  appendAllMeals(meals, searchMealsContainer);
-}
-
 export function showCategoriesPage(categories) {
-  closeMenu();
-  let input = document.querySelector("#search-name");
-  if (input) {
-    document.querySelector("#search-name").remove();
-    document.querySelector("#search-letter").remove();
-  }
-  if (document.querySelector("#submitBtn")) {
-    document.querySelector("#submitBtn").remove();
-  }
-  document.querySelector("#home .row").innerHTML = "";
-
-  let element = document.querySelector("#home .row");
+  let element = initHomeRowElement();
 
   let categoryEls = categories.map((category) => {
     return createEl(
@@ -169,11 +138,9 @@ export function showCategoriesPage(categories) {
 }
 
 export function showMainIngredientsPage(ingredients) {
-  let element = document.querySelector("#home .row");
-  element.innerHTML = "";
+  let element = initHomeRowElement();
 
   let description = "";
-
   let ingredientEls = ingredients.map((ingredient) => {
     if (!ingredient?.strDescription) {
       description = "no description";
@@ -183,7 +150,6 @@ export function showMainIngredientsPage(ingredients) {
           ? ingredient?.strDescription.slice(0, 109) + "..."
           : ingredient?.strDescription;
     }
-
     return createEl(
       "div",
       { class: "col-12 col-md-3 c-pointer" },
@@ -208,13 +174,9 @@ export function showMainIngredientsPage(ingredients) {
 export function showContactUsPage() {
   startLoading();
   closeMenu();
-  let input = document.querySelector("#search-name");
-  if (input) {
-    document.querySelector("#search-name").remove();
-    document.querySelector("#search-letter").remove();
-  }
 
-  let element = document.querySelector("#home .row");
+  let element = initHomeRowElement();
+
   // create and append ui
   let htmlElments = `
           <div class="w-75 position-absolute top-50 start-50 translate-middle" id="cc">
@@ -251,7 +213,7 @@ export function showContactUsPage() {
               </div>
               <div class="col-md-5 mb-3" id="repasswordInput-container">
                   
-                  <div id="repasswordAlert" class="alert alert-danger w-100 mt-2 d-none">
+                  <div id="rePasswordAlert" class="alert alert-danger w-100 mt-2 d-none">
                       Enter valid repassword 
                   </div>
               </div>
@@ -284,7 +246,8 @@ export function showContactUsPage() {
     container.append(btn);
   }
 
-  let formInputsInfo = [
+  // inputs data
+  let inputsData = [
     {
       id: "nameInput",
       keyup: inputsValidation,
@@ -330,7 +293,7 @@ export function showContactUsPage() {
   ];
 
   let inputEl = "";
-  formInputsInfo.forEach((elInfo) => {
+  inputsData.forEach((elInfo) => {
     inputEl = createEl(
       "input",
       {
@@ -346,7 +309,7 @@ export function showContactUsPage() {
       }
     );
 
-    document.getElementById(`${elInfo.id}-container`).prepend(inputEl);
+    document.querySelector(`#${elInfo.id}-container`).prepend(inputEl);
   });
 
   endLoading();
@@ -357,11 +320,13 @@ export function showSearchPage() {
   closeMenu();
   let homeContainer = document.querySelector("#home .container");
 
+  // create search input by name
   const inputSearchByName = createEl(
     "input",
     {
       id: "search-name",
-      class: "form-control bg-transparent text-white z-90 mb-3",
+      class:
+        "form-control bg-transparent text-white position-relative z-90 mb-3",
       type: "text",
       placeholder: "Search By Name",
     },
@@ -372,11 +337,12 @@ export function showSearchPage() {
     }
   );
 
-  const inputSearchByFisrtLetter = createEl(
+  // create search input by firstLetter
+  const inputSearchByFirstLetter = createEl(
     "input",
     {
       id: "search-letter",
-      class: "form-control bg-transparent text-white z-90",
+      class: "form-control bg-transparent text-white position-relative z-90",
       type: "text",
       placeholder: "Search By first letter",
       maxlength: "1",
@@ -388,6 +354,7 @@ export function showSearchPage() {
     }
   );
 
+  // create search input by firstLetter
   homeContainer.innerHTML = `
       <div class="row mb-5">
         <div class="col-12 col-md-6" id="search-input-name">
@@ -408,7 +375,15 @@ export function showSearchPage() {
   document.querySelector("#search-input-name").append(inputSearchByName);
   document
     .querySelector("#search-input-f-letter")
-    .append(inputSearchByFisrtLetter);
+    .append(inputSearchByFirstLetter);
 
   endLoading();
+}
+
+export function showErrorPage() {
+  let container = document.querySelector("#home .row");
+  console.log(container);
+  container.innerHTML = `
+    <div class="text-bg-danger p-3 rounded-3 text-center">Can't Fetch Data</div>
+  `;
 }

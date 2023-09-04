@@ -8,19 +8,13 @@ import {
 
 import { showContactUsPage, showSearchPage } from "./showPages.js";
 
-let searchLi = document.getElementById("searchLi");
-let categoriesLi = document.getElementById("categoriesLi");
-let areasLi = document.getElementById("areasLi");
-let ingredientsLi = document.getElementById("ingredientsLi");
-let contactUsLi = document.getElementById("contactUsLi");
+let searchLi = document.querySelector("#searchLi");
+let categoriesLi = document.querySelector("#categoriesLi");
+let areasLi = document.querySelector("#areasLi");
+let ingredientsLi = document.querySelector("#ingredientsLi");
+let contactUsLi = document.querySelector("#contactUsLi");
 
-let containerMenuIcon = document.getElementById("menu-icon-nav");
-
-let mainNav = document.querySelector("nav");
-let asideNav = document.getElementById("aside-nav");
-
-// handel style of aside and nav
-asideNav.style.cssText = `left: ${mainNav.offsetWidth}px`;
+let containerMenuIcon = document.querySelector("#menu-icon-nav");
 
 // li addEventListener
 searchLi.addEventListener("click", showSearchPage);
@@ -31,6 +25,7 @@ contactUsLi.addEventListener("click", showContactUsPage);
 
 // other addEventListener
 containerMenuIcon.addEventListener("click", function () {
+  let asideNav = document.querySelector("#aside-nav");
   if (asideNav.style.left > "0px") {
     closeMenu();
   } else {
@@ -39,7 +34,7 @@ containerMenuIcon.addEventListener("click", function () {
 });
 
 // start app
-closeMenu("noToggleMenuIcon");
+closeMenu();
 getMealsBySearchName("");
 
 // ------------------------------------------------------------------------
