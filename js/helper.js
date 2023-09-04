@@ -1,6 +1,7 @@
 import { getMeal } from "./getData.js";
 import { isAllInputValid } from "./validation.js";
 
+// start load
 export function startLoading() {
   let loading = document.querySelector("#loading");
 
@@ -17,6 +18,7 @@ export function startLoading() {
   }, 500);
 }
 
+// end load
 export function endLoading() {
   let loading = document.querySelector("#loading");
 
@@ -32,6 +34,7 @@ export function endLoading() {
   }, 500);
 }
 
+// close aside nav bar
 export function closeMenu() {
   let mainNav = document.querySelector("nav");
   let asideNav = document.querySelector("#aside-nav");
@@ -59,6 +62,7 @@ export function closeMenu() {
   }
 }
 
+// open aside nav bar
 export function openMenu() {
   let mainNav = document.querySelector("nav");
   let asideNav = document.querySelector("#aside-nav");
@@ -88,6 +92,7 @@ export function openMenu() {
   }
 }
 
+// create new element
 export function createEl(elementName, attributes, eventsListener, children) {
   // tagName, AttributesObject, eventsObject, textOr`<></>`
   let myElement = document.createElement(elementName);
@@ -111,6 +116,7 @@ export function createEl(elementName, attributes, eventsListener, children) {
   return myElement;
 }
 
+// append all meals in element
 export function appendAllMeals(meals, element) {
   if (!meals) {
     return;
@@ -144,12 +150,37 @@ export function appendAllMeals(meals, element) {
   element.append(...mealEls);
 }
 
-export function handelSubmit() {
-  if (isAllInputValid()) {
-    console.log("Done");
+// remove 2 search Inputs of search page
+export function removeSearchInputs() {
+  let input = document.querySelector("#search-name");
+  if (input) {
+    document.querySelector("#search-name").remove();
+    document.querySelector("#search-letter").remove();
   }
 }
 
+// remove Search Inputs and empty the container element to append new ui
+export function initHomeRowElement() {
+  removeSearchInputs();
+  let element = document.querySelector("#home .row");
+  element.innerHTML = "";
+
+  return element;
+}
+
+// get max number of meals to show them
+export function getMaxNumberOfMeals(data) {
+  const limit = 20;
+  if (data?.meals?.length > limit) {
+    data = data.meals.slice(0, limit);
+  } else {
+    data = data.meals;
+  }
+
+  return data;
+}
+
+// return container to append meals in search page
 export function searchMealsContainer() {
   let searchMealsContainerElement = document.querySelector(
     "#search-meals .container .row"
@@ -161,18 +192,9 @@ export function searchMealsContainer() {
   return searchMealsContainerElement;
 }
 
-export function removeSearchInputs() {
-  let input = document.querySelector("#search-name");
-  if (input) {
-    document.querySelector("#search-name").remove();
-    document.querySelector("#search-letter").remove();
+// handle submit button click in contact us page
+export function handelSubmit() {
+  if (isAllInputValid()) {
+    console.log("Done");
   }
-}
-
-export function initHomeRowElement() {
-  removeSearchInputs();
-  let element = document.querySelector("#home .row");
-  element.innerHTML = "";
-
-  return element;
 }

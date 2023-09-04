@@ -15,6 +15,7 @@ import {
 } from "./helper.js";
 import { inputsValidation } from "./validation.js";
 
+// areas page
 export function showAreasPage(areas) {
   let element = initHomeRowElement();
 
@@ -38,6 +39,7 @@ export function showAreasPage(areas) {
   element.append(...areaEls);
 }
 
+// meal page
 export function showMealPage(meal) {
   let homeContainer = document.querySelector("#home .container");
   let liRecipes = "";
@@ -102,6 +104,7 @@ export function showMealPage(meal) {
       </div>`;
 }
 
+// Categories Page
 export function showCategoriesPage(categories) {
   let element = initHomeRowElement();
 
@@ -137,6 +140,7 @@ export function showCategoriesPage(categories) {
   element.append(...categoryEls);
 }
 
+// Ingredients Page
 export function showMainIngredientsPage(ingredients) {
   let element = initHomeRowElement();
 
@@ -171,6 +175,7 @@ export function showMainIngredientsPage(ingredients) {
   element.append(...ingredientEls);
 }
 
+// ContactUs Page
 export function showContactUsPage() {
   startLoading();
   closeMenu();
@@ -315,6 +320,7 @@ export function showContactUsPage() {
   endLoading();
 }
 
+// Search Page
 export function showSearchPage() {
   startLoading();
   closeMenu();
@@ -380,6 +386,7 @@ export function showSearchPage() {
   endLoading();
 }
 
+// Error Page
 export function showErrorPage() {
   let container = document.querySelector("#home .row");
   console.log(container);

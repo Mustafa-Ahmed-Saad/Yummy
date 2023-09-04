@@ -1,3 +1,4 @@
+// switch between all validation function independent on input id
 export function inputsValidation(input) {
   switch (input.id) {
     case "nameInput":
@@ -13,7 +14,7 @@ export function inputsValidation(input) {
       break;
 
     case "repasswordInput":
-      isValidRepassword(input);
+      isValidRePassword(input);
       break;
 
     case "phoneInput":
@@ -39,6 +40,8 @@ export function inputsValidation(input) {
     }
   }
 }
+
+// check of all inputs valid or not
 export function isAllInputValid() {
   if (
     isValidCaraterOnly(undefined, true) &&
@@ -46,7 +49,7 @@ export function isAllInputValid() {
     isValidPhoneNumber(undefined, true) &&
     isValidAge(undefined, true) &&
     isValidPassword(undefined, true) &&
-    isValidRepassword(undefined, true)
+    isValidRePassword(undefined, true)
   ) {
     return true;
   } else {
@@ -54,6 +57,7 @@ export function isAllInputValid() {
   }
 }
 
+// name validation
 function isValidCaraterOnly(input, dontShowAlert) {
   // nameInput => accept character only
   // /^[A-Za-z]+$/
@@ -68,6 +72,7 @@ function isValidCaraterOnly(input, dontShowAlert) {
   return isValid(regex, input, nameAlertEl, dontShowAlert);
 }
 
+// email variations
 function isValidEmail(input, dontShowAlert) {
   // emailInput => accept emails only
   // /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -82,6 +87,7 @@ function isValidEmail(input, dontShowAlert) {
   return isValid(regex, input, emailAlertEl, dontShowAlert);
 }
 
+// phone number Validation
 function isValidPhoneNumber(input, dontShowAlert) {
   // phoneInput => accept phone only
   // /^(02)?(010|011|012|015)\d{8}$/
@@ -97,6 +103,7 @@ function isValidPhoneNumber(input, dontShowAlert) {
   return isValid(regex, input, phoneAlertEl, dontShowAlert);
 }
 
+// age Validation
 function isValidAge(input, dontShowAlert) {
   // ageInput => accept number only from 5 to 100
   // /^([5-9]|[1-9][0-9]|100)$/
@@ -111,6 +118,7 @@ function isValidAge(input, dontShowAlert) {
   return isValid(regex, input, ageAlertEl, dontShowAlert);
 }
 
+// password Validation
 function isValidPassword(input, dontShowAlert) {
   // passwordInput => accept 7 number or more and atlest 1 caracter or more
   // /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{8,30})$/
@@ -122,12 +130,13 @@ function isValidPassword(input, dontShowAlert) {
   let regex = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{8,30})$/;
   let passwordAlertEl = document.querySelector("#passwordAlert");
 
-  isValidRepassword();
+  isValidRePassword();
 
   return isValid(regex, input, passwordAlertEl, dontShowAlert);
 }
 
-function isValidRepassword(input, dontShowAlert) {
+// RePassword Validation
+function isValidRePassword(input, dontShowAlert) {
   // repasswordInput
   // repasswordInput.value === passwordInput.value
 
@@ -143,6 +152,7 @@ function isValidRepassword(input, dontShowAlert) {
   return isValid(regex, input, rePasswordAlertEl, dontShowAlert);
 }
 
+// check if any input is valid or not
 function isValid(regex, input, messageEl, dontShowAlert) {
   if (dontShowAlert === undefined) {
     let valid = false;

@@ -5,6 +5,7 @@ import {
   appendAllMeals,
   searchMealsContainer,
   removeSearchInputs,
+  getMaxNumberOfMeals,
 } from "./helper.js";
 import {
   showMealPage,
@@ -14,8 +15,7 @@ import {
   showErrorPage,
 } from "./showPages.js";
 
-const limit = 20;
-
+// get meals by name when type in search input (name)
 export async function getMealsBySearchName(value) {
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/search.php?s=${value}`
@@ -23,17 +23,14 @@ export async function getMealsBySearchName(value) {
 
   let myData = [];
   if (data) {
-    if (data?.meals?.length > limit) {
-      myData = data.meals.slice(0, limit);
-    } else {
-      myData = data.meals;
-    }
+    myData = getMaxNumberOfMeals(data);
 
     let container = searchMealsContainer();
     appendAllMeals(myData, container);
   }
 }
 
+// get meal id
 export async function getMeal(id) {
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
@@ -44,6 +41,7 @@ export async function getMeal(id) {
   }
 }
 
+// get meals by category when click on category element
 export async function getCategoryMeals(category) {
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
@@ -51,16 +49,14 @@ export async function getCategoryMeals(category) {
 
   let myData = [];
   if (data) {
-    if (data?.meals?.length > limit) {
-      myData = data.meals.slice(0, limit);
-    } else {
-      myData = data.meals;
-    }
+    myData = getMaxNumberOfMeals(data);
+
     let element = document.querySelector("#home .row");
     appendAllMeals(myData, element);
   }
 }
 
+// get all categories
 export async function getCategories() {
   removeSearchInputs();
   let data = await getData(
@@ -72,6 +68,7 @@ export async function getCategories() {
   }
 }
 
+// get all categories Ingredients
 export async function getMainIngredients() {
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/list.php?i=list`
@@ -82,6 +79,7 @@ export async function getMainIngredients() {
   }
 }
 
+// get meals by Ingredient when click on Ingredient element
 export async function getIngredientMeals(ingredient) {
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
@@ -89,16 +87,14 @@ export async function getIngredientMeals(ingredient) {
 
   let myData = [];
   if (data) {
-    if (data?.meals?.length > limit) {
-      myData = data.meals.slice(0, limit);
-    } else {
-      myData = data.meals;
-    }
+    myData = getMaxNumberOfMeals(data);
+
     let element = document.querySelector("#home .row");
     appendAllMeals(myData, element);
   }
 }
 
+// get all areas
 export async function getAllAreas() {
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/list.php?a=list`
@@ -109,6 +105,7 @@ export async function getAllAreas() {
   }
 }
 
+// get meals by area when click on area element
 export async function getAreaMeals(area) {
   let data = await getData(
     `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`
@@ -116,16 +113,14 @@ export async function getAreaMeals(area) {
 
   let myData = [];
   if (data) {
-    if (data?.meals?.length > limit) {
-      myData = data.meals.slice(0, limit);
-    } else {
-      myData = data.meals;
-    }
+    myData = getMaxNumberOfMeals(data);
+
     let element = document.querySelector("#home .row");
     appendAllMeals(myData, element);
   }
 }
 
+// get meals by first letter search when type in search input (first letter)
 export async function getMealsBySearchFirstLetter(value) {
   if (value.length > 1) {
     value = value[0];
@@ -138,11 +133,7 @@ export async function getMealsBySearchFirstLetter(value) {
 
     let myData = [];
     if (data) {
-      if (data?.meals?.length > limit) {
-        myData = data.meals.slice(0, limit);
-      } else {
-        myData = data.meals;
-      }
+      myData = getMaxNumberOfMeals(data);
 
       let container = searchMealsContainer();
       appendAllMeals(myData, container);
@@ -150,6 +141,7 @@ export async function getMealsBySearchFirstLetter(value) {
   }
 }
 
+// get any data and handle error
 async function getData(url) {
   closeMenu();
   startLoading();
